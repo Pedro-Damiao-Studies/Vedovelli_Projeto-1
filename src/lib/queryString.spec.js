@@ -1,4 +1,4 @@
-const { queryString } = require('./queryString');
+const { queryString, parse } = require('./queryString');
 
 describe('Object to query string', () => {
 
@@ -29,7 +29,7 @@ describe('Object to query string', () => {
   });
 
   it('should throw an error when an object is passed as values', () => {
-    
+
     const obj = {
       name: 'Pedro',
       skills: {
@@ -46,6 +46,38 @@ describe('Object to query string', () => {
 
 });
 
-// describe('Query string to object', () => {
+describe('Query string to object', () => {
 
-// });
+  it('should convert a query string to object', () => {
+
+    const queryString = 'name=Pedro&profession=Software Engineer';
+
+    expect(parse(queryString)).toEqual({
+      name: 'Pedro',
+      profession: 'Software Engineer',
+    });
+
+  });
+
+  it('should convert a query string of a single key-value to object', () => {
+
+    const queryString = 'name=Pedro';
+
+    expect(parse(queryString)).toEqual({
+      name: 'Pedro'
+    });
+
+  });
+
+  it('should convert a query string to an object taking care of comma separate values', () => {
+
+    const queryString = 'name=Pedro&hardSkills=JS,TS,TDD';
+
+    expect(parse(queryString)).toEqual({
+      name: 'Pedro',
+      hardSkills: ['JS', 'TS', 'TDD'],
+    });
+  })
+
+
+});
