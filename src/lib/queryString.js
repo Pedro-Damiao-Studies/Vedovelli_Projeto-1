@@ -6,15 +6,15 @@ const keyValueToString = ([key, value]) => {
 }
 
 
-module.exports.queryString = (obj) =>
-  Object
+export function queryString(obj)  {   
+  return Object
     .entries(obj)
     .map(keyValueToString)
-    .join('&');
+    .join('&');   }
 
-module.exports.parse = (queryString) => 
-  Object.
-    fromEntries(
+export function parse(queryString)  {   
+  return Object
+    .fromEntries(
       queryString
       .split('&')
       .map(item => {
@@ -24,4 +24,4 @@ module.exports.parse = (queryString) =>
         }
         return [key, value];
       })
-    );
+    );   }
