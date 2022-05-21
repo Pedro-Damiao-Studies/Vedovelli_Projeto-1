@@ -17,54 +17,93 @@ describe('Cart', () => {
     cart = new Cart();
   });
 
-  it('should return 0 when getTotal() is executed in a newly created instance', () => {
+  describe('GetTotal', () => {
+    it('should return 0 when getTotal() is executed in a newly created instance', () => {
 
-    expect(cart.getTotal()).toBe(0);
+      expect(cart.getTotal()).toBe(0);
+    })
+
+    it('should multiply quantity and price and receive the total amout', () => {
+      const item = {
+        product,
+        quantity: 2
+      };
+
+      cart.add(item);
+
+      expect(cart.getTotal()).toEqual(70776);
+
+    })
+
+    it('should ensure no more than one product exists at a time', () => {
+      cart.add({
+        product,
+        quantity: 2
+      });
+
+      cart.add({
+        product,
+        quantity: 1
+      });
+
+
+      expect(cart.getTotal()).toEqual(35388);
+    })
+
+    it('should update total when a product gets included and then removed', () => {
+      cart.add({
+        product,
+        quantity: 2
+      });
+
+      cart.add({
+        product: product2,
+        quantity: 1
+      });
+
+      cart.remove(product)
+
+
+      expect(cart.getTotal()).toEqual(41872);
+
+    })
   })
 
-  it('should multiply quantity and price and receive the total amout', () => {
-    const item = {
-      product,
-      quantity: 2
-    };
+  describe('checkout', () => {
+    it('should return an object with the total an the lis of items', () => {
+      cart.add({
+        product,
+        quantity: 2
+      });
 
-    cart.add(item);
+      cart.add({
+        product: product2,
+        quantity: 1
+      });
 
-    expect(cart.getTotal()).toEqual(70776);
+      expect(cart.checkout()).toMatchSnapshot(`
+        Object {
+          "items": Array [
+            Object {
+              "product": Object {
+                "price": 35388,
+                "title": "Adidas running shoes - men",
+              },
+              "quantity": 2,
+            },
+            Object {
+              "product": Object {
+                "price": 41872,
+                "title": "Adidas running shoes - women",
+              },
+              "quantity": 1,
+            },
+          ],
+          "total": 112648,
+        }
+      `)
 
-  })
-
-  it('should ensure no more than one product exists at a time', () => {
-    cart.add({
-      product,
-      quantity: 2
-    });
-
-    cart.add({
-      product,
-      quantity: 1
-    });
-
-
-    expect(cart.getTotal()).toEqual(35388);
-  })
-
-  it('should update total when a product gets included and then removed', () => {
-    cart.add({
-      product,
-      quantity: 2
-    });
-
-    cart.add({
-      product: product2,
-      quantity: 1
-    });
-
-    cart.remove(product)
-
-
-    expect(cart.getTotal()).toEqual(41872);
-
+    })
   })
 
 
