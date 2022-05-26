@@ -81,27 +81,7 @@ describe('Cart', () => {
         quantity: 1
       });
 
-      expect(cart.checkout()).toMatchSnapshot(`
-        Object {
-          "items": Array [
-            Object {
-              "product": Object {
-                "price": 35388,
-                "title": "Adidas running shoes - men",
-              },
-              "quantity": 2,
-            },
-            Object {
-              "product": Object {
-                "price": 41872,
-                "title": "Adidas running shoes - women",
-              },
-              "quantity": 1,
-            },
-          ],
-          "total": 112648,
-        }
-      `)
+      expect(cart.checkout()).toMatchSnapshot();
 
     })
   })
